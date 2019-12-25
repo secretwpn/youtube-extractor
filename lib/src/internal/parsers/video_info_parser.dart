@@ -19,11 +19,31 @@ class VideoInfoParser {
 
   String parsePreviewVideoId() => _root['ypc_vid'];
 
-  String parseDashManifestUrl() =>
-      jsonDecode(_root['player_response'])['streamingData']['dashManifestUrl'];
+  /// Not served by YouTube anymore
+  @deprecated
+  String parseDashManifestUrl() {
+    String dashManifestUrl;
+    try {
+      dashManifestUrl = jsonDecode(_root['player_response'])['streamingData']
+          ['dashManifestUrl'];
+    } catch (err) {
+      print('Failed to get dash manifest url');
+    }
+    return dashManifestUrl;
+  }
 
-  String parseHlsPlaylistUrl() =>
-      jsonDecode(_root['player_response'])['streamingData']['hlsManifestUrl'];
+  /// Not served by YouTube anymore
+  @deprecated
+  String parseHlsPlaylistUrl() {
+    String hlsManifestUrl;
+    try {
+      hlsManifestUrl = jsonDecode(_root['player_response'])['streamingData']
+          ['hlsManifestUrl'];
+    } catch (err) {
+      print('Failed to get hls manifest url');
+    }
+    return hlsManifestUrl;
+  }
 
   List<MuxedStreamInfoParser> getMuxedStreamInfo() {
     var streamInfosEncoded = _root['url_encoded_fmt_stream_map'];
