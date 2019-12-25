@@ -1,28 +1,31 @@
 class AdaptiveStreamInfoParser {
-  Map<String, String> _root;
+  Map<String, dynamic> _root;
 
   AdaptiveStreamInfoParser(this._root);
 
-  int parseItag() => _getInt(_root['itag']);
+  int parseBitrate() => _root['bitrate'];
 
-  String parseUrl() => _root['url'];
+  int parseContentLength() => _getInt(_root[
+      'contentLength']); // encoded as string in json for whatever reason (maybe json int overflow)
+
+  int parseFramerate() => _root['fps'];
+
+  // if there is &sp=sig signiture parameter must name 'sig' instead of 'signiture'
+  int parseHeight() => 0;
+
+  bool parseIsAudioOnly() => _root['mimeType']?.startsWith('audio/');
+
+  int parseItag() => _root['itag'];
 
   String parseSignature() => _root['s'];
 
-  // if there is &sp=sig signiture parameter must name 'sig' instead of 'signiture'
-  String parseSp() => _root['sp'];
+  String parseSp() =>
+      _root['sp']; //_root["size"].SubstringUntil('x').ParseInt();
 
-  int parseContentLength() => _getInt(_root['clen']);
+  String parseUrl() =>
+      _root['url']; //_root["size"].SubstringAfter('x').ParseInt();
 
-  int parseBitrate() => _getInt(_root['bitrate']);
-
-  bool parseIsAudioOnly() => _root['type']?.startsWith('audio/');
-
-  int parseWidth() => 0; //_root["size"].SubstringUntil('x').ParseInt();
-
-  int parseHeight() => 0; //_root["size"].SubstringAfter('x').ParseInt();
-
-  int parseFramerate() => _getInt(_root['fps']);
+  int parseWidth() => 0;
 
   int _getInt(String string) {
     if (string == null) {

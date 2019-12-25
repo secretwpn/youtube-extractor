@@ -13,8 +13,5 @@ class MediaStreamInfoSet {
   /// Video-only streams.
   List<VideoStreamInfo> video;
 
-  /// Raw HTTP Live Streaming (HLS) URL to the m3u8 playlist.
-  String hlsLiveStreamUrl;
-
-  MediaStreamInfoSet(this.muxed, this.audio, this.video, this.hlsLiveStreamUrl);
+  MediaStreamInfoSet(this.muxed, this.audio, this.video);
 }

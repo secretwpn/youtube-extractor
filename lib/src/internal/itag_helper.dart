@@ -1,6 +1,6 @@
 import '../internal/itag_descriptor.dart';
-import '../models/media_streams/container.dart';
 import '../models/media_streams/audio_encoding.dart';
+import '../models/media_streams/container.dart';
 import '../models/media_streams/video_encoding.dart';
 import '../models/media_streams/video_quality.dart';
 
@@ -197,8 +197,8 @@ class ItagHelper {
     251: ItagDescriptor(Container.WebM, AudioEncoding.Opus, null, null)
   };
 
-  static Container getContainer(int itag) {
-    var result = _ItagMap[itag]?.container;
+  static AudioEncoding getAudioEncoding(int itag) {
+    var result = _ItagMap[itag]?.audioEncoding;
 
     if (result == null) {
       throw new ArgumentError('Unexpected itag [$itag].');
@@ -207,8 +207,8 @@ class ItagHelper {
     return result;
   }
 
-  static AudioEncoding getAudioEncoding(int itag) {
-    var result = _ItagMap[itag]?.audioEncoding;
+  static Container getContainer(int itag) {
+    var result = _ItagMap[itag]?.container;
 
     if (result == null) {
       throw new ArgumentError('Unexpected itag [$itag].');

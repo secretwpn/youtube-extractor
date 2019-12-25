@@ -5,9 +5,9 @@ class MuxedStreamInfoParser {
 
   int parseItag() => _getInt(_root['itag']);
 
-  String parseUrl() => _root['url'];
-
   String parseSignature() => _root['s'];
+
+  String parseUrl() => _root['url'];
 
   int _getInt(String string) {
     if (string == null) {
