@@ -102,20 +102,25 @@ class YouTubeExtractor {
 
       // If content length is 0, it means that the stream is gone or faulty
       if (contentLength > 0) {
+        // Extract cipher if needed
+        var cipher = adaptiveStreamInfo[i].parseCipher();
+
         // Extract URL
-        var url = adaptiveStreamInfo[i].parseUrl();
+        var url = cipher?.parseUrl() ?? adaptiveStreamInfo[i].parseUrl();
 
         // Decipher signature if needed
-        var signature = adaptiveStreamInfo[i].parseSignature();
+        var signature =
+            cipher?.parseSignature() ?? adaptiveStreamInfo[i].parseSignature();
         if (signature != null) {
           var playerSource = await _getVideoPlayerSourceAsync(playerSourceUrl);
           signature = playerSource.decipher(signature);
 
           // parameter 'ratebypass' needs to be yes
           // if there is 'sp' parameter, must use 'sig' instead of 'signature'
-          if (adaptiveStreamInfo[i].parseSp() != null) {
+          var sp = cipher?.parseSp() ?? adaptiveStreamInfo[i].parseSp();
+          if (sp != null) {
             url = url +
-                '&ratebypass=yes&${adaptiveStreamInfo[i].parseSp()}=' +
+                '&ratebypass=yes&$sp=' +
                 signature;
           } else {
             url = url + '&ratebypass=yes&signature=' + signature;
