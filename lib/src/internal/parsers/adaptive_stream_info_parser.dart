@@ -1,3 +1,5 @@
+import 'adaptive_stream_cipher_parser.dart';
+
 class AdaptiveStreamInfoParser {
   Map<String, dynamic> _root;
 
@@ -26,6 +28,11 @@ class AdaptiveStreamInfoParser {
       _root['url']; //_root["size"].SubstringAfter('x').ParseInt();
 
   int parseWidth() => 0;
+
+  AdaptiveStreamCipherParser parseCipher() {
+    if (!_root.containsKey('cipher')) return null;
+    return AdaptiveStreamCipherParser.initialize(_root['cipher']);
+  }
 
   int _getInt(String string) {
     if (string == null) {
